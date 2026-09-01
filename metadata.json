@@ -1,0 +1,6 @@
+{
+  "name": "চিঠি নির্মাতা ও প্রাপক দর্শন",
+  "description": "২ পর্বের ডিজিটাল চিঠি অ্যাপ: ওয়েব ভিউতে সম্পাদনাযোগ্য নির্মাতা প্যানেল এবং বন্ধুদের জন্য স্ট্যাটিক ইন্টারেক্টিভ চিঠি প্রাপক ভিউ।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
