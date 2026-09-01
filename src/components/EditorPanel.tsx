@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LetterData } from '../types';
-import { TEMPLATES, THEMES } from '../utils/templates';
+import { TEMPLATES, THEMES, WAX_SEALS, WAX_COLORS, BENGALI_FONTS } from '../utils/templates';
+import { WaxSeal } from './WaxSeal';
 import { 
   FileText, 
   MapPin, 
@@ -16,7 +17,12 @@ import {
   BookOpen,
   Mail,
   ShieldCheck,
-  Eraser
+  Eraser,
+  Flame,
+  Award,
+  Type,
+  Check,
+  ChevronDown
 } from 'lucide-react';
 
 interface Props {
@@ -495,34 +501,214 @@ export const EditorPanel: React.FC<Props> = ({
               </div>
             </div>
 
-            {/* Typography Selection */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                চিঠির ফন্ট স্টাইল (Bengali Typography)
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { id: 'hind', name: 'হিন্দ শিলিগুড়ি (Hind Siliguri)', sub: 'আধুনিক ও স্পষ্ট সান-সেরিফ' },
-                  { id: 'serif', name: 'নোটো সেরিফ (Noto Serif)', sub: 'ধ্রুপদী ও ঐতিহ্যবাহী বই স্টাইল' },
-                  { id: 'galada', name: 'গালাদা (Galada Handcrafted)', sub: 'হাতে লেখা ক্যালিগ্রাফি স্টাইল' },
-                  { id: 'tiro', name: 'তিরো বাংলা (Tiro Bangla)', sub: 'সাহিত্যিক ও প্রকাশনা ফন্ট' },
-                ].map((f) => {
-                  const isSelected = data.fontFamily === f.id;
+            {/* ========================================================================= */}
+            {/* WAX SEAL (খামের সিল মোহর) CUSTOMIZATION                                    */}
+            {/* ========================================================================= */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50/80 via-white to-amber-100/30 border border-amber-200 shadow-xs space-y-4">
+              <div className="flex items-center justify-between border-b border-amber-200/80 pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-amber-600 text-white flex items-center justify-center shadow-xs">
+                    <Flame className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-neutral-900">খামের সিল মোহর (Wax Seal)</h3>
+                    <p className="text-[11px] text-neutral-500">বন্ধ চিঠির ত্রিকোণ ফ্ল্যাপে ব্যবহৃত ৩ডি মোমের সীল মোহর</p>
+                  </div>
+                </div>
+
+                {/* Mini Visual Preview of Current Seal */}
+                <div className="flex items-center gap-2 bg-white px-2.5 py-1.5 rounded-full border border-amber-200 shadow-xs">
+                  <WaxSeal 
+                    type={data.sealType || 'envelope-heart'} 
+                    color={data.sealColor || 'crimson'} 
+                    initialText={data.signatureName || data.senderName || 'চি'}
+                    size="sm" 
+                  />
+                  <span className="text-xs font-semibold text-neutral-800">
+                    {WAX_SEALS.find(s => s.id === data.sealType)?.nameBn || 'চিঠি ও হৃদয়'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Seal Emblem Selector */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
+                  সিল মোহরের প্রতীক (Emblem Design)
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                  {WAX_SEALS.map((s) => {
+                    const isSelected = (data.sealType || 'envelope-heart') === s.id;
+                    return (
+                      <button
+                        key={s.id}
+                        onClick={() => updateField('sealType', s.id)}
+                        className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-between gap-1.5 ${
+                          isSelected
+                            ? 'border-amber-600 bg-amber-100/80 shadow-md ring-2 ring-amber-500/30'
+                            : 'border-neutral-200 bg-white hover:border-amber-300 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <WaxSeal 
+                          type={s.id} 
+                          color={data.sealColor || 'crimson'} 
+                          initialText={data.signatureName || data.senderName || 'চি'}
+                          size="md" 
+                        />
+                        <div className="text-[11px] font-bold text-neutral-800 line-clamp-1">{s.nameBn}</div>
+                        <div className="text-[9px] text-neutral-500 line-clamp-1">{s.nameEn}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Seal Wax Color Selector */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
+                  সিল মোহরের রঙ ও মেটালিক ফিনিশ (Wax Color)
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
+                  {WAX_COLORS.map((c) => {
+                    const isSelected = (data.sealColor || 'crimson') === c.id;
+                    return (
+                      <button
+                        key={c.id}
+                        onClick={() => updateField('sealColor', c.id)}
+                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                          isSelected
+                            ? 'border-amber-600 bg-amber-100/90 shadow-md ring-2 ring-amber-500/30'
+                            : 'border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <div 
+                          className="w-5 h-5 rounded-full shrink-0 shadow-xs border border-white/60"
+                          style={{ background: c.bgGradient }}
+                        />
+                        <div className="min-w-0">
+                          <div className="text-xs font-bold text-neutral-800 truncate">{c.nameBn}</div>
+                          <div className="text-[9px] text-neutral-500 truncate">{c.nameEn}</div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* ========================================================================= */}
+            {/* BENGALI TYPOGRAPHY & FONT SELECTION (ড্রপডাউন ও ভিজ্যুয়াল কার্ড)          */}
+            {/* ========================================================================= */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-50/80 border border-neutral-200 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-neutral-200/80 pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-neutral-900 text-amber-400 flex items-center justify-center shadow-xs">
+                    <Type className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-neutral-900">চিঠির বাংলা ফন্ট নির্বাচন (Bengali Typography)</h3>
+                    <p className="text-[11px] text-neutral-500">১২টি দৃষ্টিনন্দন বাংলা ফন্ট থেকে চিঠির অভ্যন্তরীণ শৈলী নির্বাচন করুন</p>
+                  </div>
+                </div>
+
+                {/* Current Active Font Indicator */}
+                {(() => {
+                  const currentFont = BENGALI_FONTS.find(f => f.id === data.fontFamily) || 
+                    (data.fontFamily === 'serif' ? BENGALI_FONTS.find(f => f.id === 'noto-serif') : null) || 
+                    BENGALI_FONTS[0];
                   return (
-                    <button
-                      key={f.id}
-                      onClick={() => updateField('fontFamily', f.id as LetterData['fontFamily'])}
-                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
-                        isSelected
-                          ? 'border-amber-600 bg-amber-50/70 shadow-sm ring-2 ring-amber-500/20'
-                          : 'border-neutral-200 bg-white hover:border-neutral-300'
-                      }`}
-                    >
-                      <div className="font-bold text-xs text-neutral-900">{f.name}</div>
-                      <div className="text-[11px] text-neutral-500 mt-0.5">{f.sub}</div>
-                    </button>
+                    <div className="flex items-center gap-1.5 self-start sm:self-auto bg-amber-100 text-amber-950 px-3 py-1 rounded-full text-xs font-semibold border border-amber-300/80 shadow-xs">
+                      <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+                      <span>{currentFont.nameBn}</span>
+                    </div>
                   );
-                })}
+                })()}
+              </div>
+
+              {/* 1. Primary Dropdown Selector */}
+              <div>
+                <label 
+                  htmlFor="bengali-font-select" 
+                  className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5"
+                >
+                  ফন্ট ড্রপডাউন তালিকা (Font Selector Dropdown)
+                </label>
+                <div className="relative">
+                  <select
+                    id="bengali-font-select"
+                    value={data.fontFamily === 'serif' ? 'noto-serif' : data.fontFamily}
+                    onChange={(e) => updateField('fontFamily', e.target.value as LetterData['fontFamily'])}
+                    className="w-full appearance-none bg-white border-2 border-neutral-300 focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 rounded-xl px-3.5 py-2.5 text-sm font-medium text-neutral-900 shadow-xs transition-all cursor-pointer pr-10"
+                  >
+                    {BENGALI_FONTS.map((font) => (
+                      <option key={font.id} value={font.id}>
+                        {font.nameBn} ({font.nameEn}) — {font.categoryBn}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500">
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. Interactive Live Sample Preview Cards */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-neutral-700">
+                    সকল ফন্টের নমুনা দর্শন ও সরাসরি নির্বাচন (Font Gallery Preview)
+                  </label>
+                  <span className="text-[10px] text-neutral-400 font-medium">১২টি ফন্ট উপলব্ধ</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[360px] overflow-y-auto pr-1">
+                  {BENGALI_FONTS.map((font) => {
+                    const isSelected = data.fontFamily === font.id || (data.fontFamily === 'serif' && font.id === 'noto-serif');
+                    return (
+                      <button
+                        key={font.id}
+                        type="button"
+                        onClick={() => updateField('fontFamily', font.id)}
+                        className={`p-3 rounded-xl border text-left transition-all cursor-pointer relative flex flex-col justify-between gap-1.5 ${
+                          isSelected
+                            ? 'border-amber-600 bg-amber-50/90 shadow-md ring-2 ring-amber-500/30'
+                            : 'border-neutral-200 bg-white hover:border-amber-300 hover:bg-neutral-50/80'
+                        }`}
+                      >
+                        {/* Header: Name and Category badge */}
+                        <div className="flex items-start justify-between gap-1">
+                          <div>
+                            <div className="font-bold text-xs text-neutral-900 flex items-center gap-1.5">
+                              <span>{font.nameBn}</span>
+                              <span className="text-[10px] text-neutral-400 font-normal">({font.nameEn})</span>
+                            </div>
+                            <div className="text-[10px] text-amber-800/80 font-medium">
+                              {font.categoryBn}
+                            </div>
+                          </div>
+
+                          {isSelected && (
+                            <div className="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                              <Check className="w-3 h-3 stroke-[3]" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Visual Sample in that Font */}
+                        <div 
+                          className={`text-sm sm:text-base text-neutral-800 py-1 px-2 rounded-lg bg-neutral-50/80 border border-neutral-200/50 ${font.cssClass}`}
+                          style={{ fontFamily: font.cssFamily }}
+                        >
+                          {font.sampleText}
+                        </div>
+
+                        {/* Short Description */}
+                        <div className="text-[10px] text-neutral-500 line-clamp-1">
+                          {font.descBn}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

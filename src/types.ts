@@ -21,10 +21,15 @@ export interface LetterData {
   // Customization & Aesthetics
   theme: 'classic' | 'romantic' | 'vintage' | 'royal' | 'midnight';
   stampType: 'star' | 'rose' | 'dove' | 'heart' | 'postmark';
+  sealType: 'envelope-heart' | 'heart' | 'rose' | 'crown' | 'feather' | 'star' | 'lotus' | 'initial' | 'tree' | 'crescent';
+  sealColor: 'crimson' | 'gold' | 'emerald' | 'midnight' | 'copper' | 'rose-gold';
   paperStyle: 'parchment' | 'kraft' | 'antique' | 'pure';
-  fontFamily: 'hind' | 'serif' | 'galada' | 'tiro';
+  fontFamily: 'hind' | 'tiro' | 'serif' | 'noto-serif' | 'galada' | 'anek' | 'baloo' | 'atma' | 'mina' | 'noto-sans' | 'kalpurush' | 'siyam' | 'vintage-book';
   enableAudio: boolean;
 }
+
+export type WaxSealType = LetterData['sealType'];
+export type WaxSealColor = LetterData['sealColor'];
 
 export type ViewMode = 'editor' | 'preview-split' | 'friend-view';
 

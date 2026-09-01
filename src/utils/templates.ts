@@ -16,6 +16,8 @@ export const BLANK_LETTER: LetterData = {
   receiverAddress: '',
   theme: 'classic',
   stampType: 'star',
+  sealType: 'envelope-heart',
+  sealColor: 'crimson',
   paperStyle: 'parchment',
   fontFamily: 'hind',
   enableAudio: true,
@@ -38,10 +40,234 @@ export const DEFAULT_LETTER: LetterData = {
   receiverAddress: 'ঠিকানা ',
   theme: 'classic',
   stampType: 'star',
+  sealType: 'envelope-heart',
+  sealColor: 'crimson',
   paperStyle: 'parchment',
   fontFamily: 'hind',
   enableAudio: true,
 };
+
+export interface WaxSealInfo {
+  id: LetterData['sealType'];
+  nameBn: string;
+  nameEn: string;
+  icon: string;
+  descBn: string;
+}
+
+export interface WaxColorInfo {
+  id: LetterData['sealColor'];
+  nameBn: string;
+  nameEn: string;
+  bgGradient: string;
+  rimColor: string;
+  shadowColor: string;
+  textColor: string;
+}
+
+export const WAX_SEALS: WaxSealInfo[] = [
+  { id: 'envelope-heart', nameBn: 'চিঠি ও হৃদয়', nameEn: 'Love Letter', icon: '💌', descBn: 'ভালোবাসার বার্তা ও চিঠি' },
+  { id: 'heart', nameBn: 'অনন্ত প্রেম', nameEn: 'Sacred Heart', icon: '❤️', descBn: 'হৃদয়ের গভীর অনুভূতি' },
+  { id: 'rose', nameBn: 'গোলাপ মোহর', nameEn: 'Vintage Rose', icon: '🌹', descBn: 'স্নিগ্ধ ভালোবাসার প্রতীক' },
+  { id: 'crown', nameBn: 'রাজকীয় মুকুট', nameEn: 'Royal Crown', icon: '👑', descBn: 'মর্যাদাপূর্ণ রাজকীয় সীল' },
+  { id: 'feather', nameBn: 'ময়ূরপঙ্খী পালক', nameEn: 'Quill Feather', icon: '🪶', descBn: 'চিঠির কলম ও সাহিত্যিক ভাব' },
+  { id: 'lotus', nameBn: 'নীলপদ্ম / পদ্ম', nameEn: 'Sacred Lotus', icon: '🪷', descBn: 'পবিত্রতা ও সৌন্দর্যের প্রতীক' },
+  { id: 'star', nameBn: 'ধ্রুবতারা', nameEn: 'North Star', icon: '⭐', descBn: 'উজ্জ্বল আশার আলো' },
+  { id: 'tree', nameBn: 'স্মৃতির বৃক্ষ', nameEn: 'Tree of Life', icon: '🌳', descBn: 'চিরন্তন বন্ধন ও স্মৃতি' },
+  { id: 'crescent', nameBn: 'চাঁদ ও তারা', nameEn: 'Moon & Star', icon: '🌙', descBn: 'স্নিগ্ধ রাতের রূপকথা' },
+  { id: 'initial', nameBn: 'নামের আদ্যক্ষর', nameEn: 'Custom Initial', icon: 'চি', descBn: 'প্রেরক বা চিঠির নিজস্ব আদ্যক্ষর' },
+];
+
+export const WAX_COLORS: WaxColorInfo[] = [
+  { 
+    id: 'crimson', 
+    nameBn: 'রক্তিম লাল', 
+    nameEn: 'Vintage Crimson', 
+    bgGradient: 'radial-gradient(circle at 35% 35%, #ef4444 0%, #b91c1c 55%, #7f1d1d 100%)',
+    rimColor: '#fca5a5',
+    shadowColor: 'rgba(127, 29, 29, 0.5)',
+    textColor: '#ffffff'
+  },
+  { 
+    id: 'gold', 
+    nameBn: 'রাজকীয় স্বর্ণ', 
+    nameEn: 'Antique Gold', 
+    bgGradient: 'radial-gradient(circle at 35% 35%, #fbbf24 0%, #d97706 55%, #78350f 100%)',
+    rimColor: '#fde68a',
+    shadowColor: 'rgba(180, 83, 9, 0.5)',
+    textColor: '#ffffff'
+  },
+  { 
+    id: 'emerald', 
+    nameBn: 'পান্না সবুজ', 
+    nameEn: 'Emerald Green', 
+    bgGradient: 'radial-gradient(circle at 35% 35%, #34d399 0%, #059669 55%, #064e3b 100%)',
+    rimColor: '#a7f3d0',
+    shadowColor: 'rgba(6, 78, 59, 0.5)',
+    textColor: '#ffffff'
+  },
+  { 
+    id: 'midnight', 
+    nameBn: 'গাঢ় নীল', 
+    nameEn: 'Midnight Navy', 
+    bgGradient: 'radial-gradient(circle at 35% 35%, #60a5fa 0%, #2563eb 55%, #1e3a8a 100%)',
+    rimColor: '#bfdbfe',
+    shadowColor: 'rgba(30, 58, 138, 0.5)',
+    textColor: '#ffffff'
+  },
+  { 
+    id: 'copper', 
+    nameBn: 'তামাটে ব্রোঞ্জ', 
+    nameEn: 'Metallic Bronze', 
+    bgGradient: 'radial-gradient(circle at 35% 35%, #fb923c 0%, #c2410c 55%, #7c2d12 100%)',
+    rimColor: '#fed7aa',
+    shadowColor: 'rgba(124, 45, 18, 0.5)',
+    textColor: '#ffffff'
+  },
+  { 
+    id: 'rose-gold', 
+    nameBn: 'রোজ গোল্ড', 
+    nameEn: 'Rose Gold', 
+    bgGradient: 'radial-gradient(circle at 35% 35%, #f472b6 0%, #db2777 55%, #831843 100%)',
+    rimColor: '#fbcfe8',
+    shadowColor: 'rgba(131, 24, 67, 0.5)',
+    textColor: '#ffffff'
+  },
+];
+
+export interface BengaliFontInfo {
+  id: LetterData['fontFamily'];
+  nameBn: string;
+  nameEn: string;
+  categoryBn: string;
+  sampleText: string;
+  cssClass: string;
+  cssFamily: string;
+  descBn: string;
+}
+
+export const BENGALI_FONTS: BengaliFontInfo[] = [
+  {
+    id: 'hind',
+    nameBn: 'হিন্দ শিলিগুড়ি',
+    nameEn: 'Hind Siliguri',
+    categoryBn: 'আধুনিক সান-সেরিফ',
+    sampleText: 'আমার প্রাণের অর্ধাঙ্গিনী',
+    cssClass: 'font-hind',
+    cssFamily: '"Hind Siliguri", "Noto Sans Bengali", sans-serif',
+    descBn: 'সবচেয়ে জনপ্রিয়, সহজে পাঠযোগ্য ও পরিচ্ছন্ন আধুনিক ফন্ট।'
+  },
+  {
+    id: 'tiro',
+    nameBn: 'টিরো বাংলা',
+    nameEn: 'Tiro Bangla',
+    categoryBn: 'সাহিত্যিক ও ক্লাসিক',
+    sampleText: 'প্রতিটি না-বলা কথার চিঠি',
+    cssClass: 'font-tiro',
+    cssFamily: '"Tiro Bangla", "Noto Serif Bengali", serif',
+    descBn: 'বই প্রকাশনা ও মার্জিত চিঠি লেখার ঐতিহ্যবাহী সাহিত্যিক ফন্ট।'
+  },
+  {
+    id: 'noto-serif',
+    nameBn: 'নোটো সেরিফ বাংলা',
+    nameEn: 'Noto Serif Bengali',
+    categoryBn: 'ঐতিহ্যবাহী সেরিফ',
+    sampleText: 'চিরন্তন ভালোবাসার দলিল',
+    cssClass: 'font-serif-bengali',
+    cssFamily: '"Noto Serif Bengali", "SolaimanLipi", serif',
+    descBn: 'স্পষ্ট সেরিফ স্ট্রোকযুক্ত রাজকীয় ও মর্যাদাশীল ফন্ট।'
+  },
+  {
+    id: 'galada',
+    nameBn: 'গালাদা ক্যালিগ্রাফি',
+    nameEn: 'Galada Calligraphy',
+    categoryBn: 'হস্তশিল্প ও ক্যালিগ্রাফি',
+    sampleText: 'হৃদয়ের গভীর আবেগ ও প্রেম',
+    cssClass: 'font-galada',
+    cssFamily: '"Galada", "Noto Serif Bengali", cursive, serif',
+    descBn: 'বক্র ক্যালিগ্রাফি ও প্রেমপত্রের জন্য এক অসাধারণ শৈল্পিক রূপ।'
+  },
+  {
+    id: 'anek',
+    nameBn: 'অনেক বাংলা',
+    nameEn: 'Anek Bangla',
+    categoryBn: 'সমসাময়িক স্টাইলিশ',
+    sampleText: 'স্মৃতির সোনালী বিকেলগুলো',
+    cssClass: 'font-anek',
+    cssFamily: '"Anek Bangla", "Hind Siliguri", sans-serif',
+    descBn: 'সুষম, তীক্ষ্ণ জ্যামিতিক রেখা ও ফ্যাশনেবল ডিজাইন।'
+  },
+  {
+    id: 'baloo',
+    nameBn: 'বালু দা ২',
+    nameEn: 'Baloo Da 2',
+    categoryBn: 'মিষ্টি ও বন্ধুত্বপূর্ণ',
+    sampleText: 'খামভর্তি উষ্ণ ভালোবাসা',
+    cssClass: 'font-baloo',
+    cssFamily: '"Baloo Da 2", "Hind Siliguri", cursive, sans-serif',
+    descBn: 'নরম, গোলগাল ও অমায়িক আন্তরিক অনুভূতির প্রকাশ।'
+  },
+  {
+    id: 'atma',
+    nameBn: 'আত্মা হস্তলিপি',
+    nameEn: 'Atma Handlettering',
+    categoryBn: 'জীবন্ত হাতের লেখা',
+    sampleText: 'চিঠির পাতায় অনুভূতির রঙ',
+    cssClass: 'font-atma',
+    cssFamily: '"Atma", "Galada", cursive, sans-serif',
+    descBn: 'হাতের লেখার স্বাভাবিক মাধুর্য, ব্যক্তিগত চিঠি ও ডায়েরির মেজাজ।'
+  },
+  {
+    id: 'mina',
+    nameBn: 'মীনা বাংলা',
+    nameEn: 'Mina Light',
+    categoryBn: 'স্লিম ও সুচারু',
+    sampleText: 'দূরত্ব বাড়ে, টান কমে না',
+    cssClass: 'font-mina',
+    cssFamily: '"Mina", "Hind Siliguri", sans-serif',
+    descBn: 'চিকন, পরিশীলিত ও অনন্য রেখার আধুনিক বাংলা ফন্ট।'
+  },
+  {
+    id: 'noto-sans',
+    nameBn: 'নোটো সান্স বাংলা',
+    nameEn: 'Noto Sans Bengali',
+    categoryBn: 'স্পষ্ট সার্বজনীন',
+    sampleText: 'চিঠি দিবসের আন্তরিক শুভেচ্ছা',
+    cssClass: 'font-noto-sans',
+    cssFamily: '"Noto Sans Bengali", sans-serif',
+    descBn: 'সুস্পষ্ট, প্রাতিষ্ঠানিক ও সব ডিভাইসে অনায়াসে পাঠযোগ্য।'
+  },
+  {
+    id: 'kalpurush',
+    nameBn: 'কালপুরুষ / সোলাইমান লিপি',
+    nameEn: 'Kalpurush & SolaimanLipi',
+    categoryBn: 'মুদ্রিত ক্লাসিক প্রেস',
+    sampleText: 'আজ হঠাৎ পুরনো ডায়েরিটা মনে পড়ল',
+    cssClass: 'font-kalpurush',
+    cssFamily: '"SolaimanLipi", "Kalpurush", "Siyam Rupali", "Noto Serif Bengali", serif',
+    descBn: 'বাংলা সংবাদপত্র ও বইয়ের চিরপরিচিত ক্লাসিক টাইপোগ্রাফি।'
+  },
+  {
+    id: 'siyam',
+    nameBn: 'সিয়াম রূপালী',
+    nameEn: 'Siyam Rupali',
+    categoryBn: 'সংহত ও আঁটসাঁট',
+    sampleText: 'একান্তে বলা কিছু না-বলা কথা',
+    cssClass: 'font-siyam',
+    cssFamily: '"Siyam Rupali", "AdorshoLipi", "Hind Siliguri", sans-serif',
+    descBn: 'সংহত ও আঁটসাঁট অক্ষরের নিখুঁত স্পষ্টতা।'
+  },
+  {
+    id: 'vintage-book',
+    nameBn: 'প্রাচীন পুঁথি ও সাহিত্য',
+    nameEn: 'Vintage Manuscript',
+    categoryBn: 'প্রাচীন ঐতিহ্য',
+    sampleText: 'ইতি তোমার চিরন্তন সাগর',
+    cssClass: 'font-vintage-book',
+    cssFamily: '"Tiro Bangla", "Noto Serif Bengali", "SolaimanLipi", Georgia, serif',
+    descBn: 'প্রাচীন পান্ডুলিপি ও ধ্রুপদী মহাকাব্যের আবেদন।'
+  },
+];
 
 export const TEMPLATES: { id: string; name: string; description: string; data: Partial<LetterData> }[] = [
   {

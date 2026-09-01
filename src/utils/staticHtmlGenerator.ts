@@ -42,10 +42,86 @@ export function generateStampSvg(type: LetterData['stampType'], color: string): 
   }
 }
 
+export function generateWaxSealSvg(
+  type: LetterData['sealType'] = 'envelope-heart',
+  color: LetterData['sealColor'] = 'crimson',
+  initial: string = 'চি'
+): string {
+  const colorMap: Record<string, { bg: string; rim: string; shadow: string }> = {
+    crimson: { 
+      bg: 'radial-gradient(circle at 35% 35%, #ef4444 0%, #b91c1c 55%, #7f1d1d 100%)', 
+      rim: '#fca5a5', 
+      shadow: 'rgba(127, 29, 29, 0.5)' 
+    },
+    gold: { 
+      bg: 'radial-gradient(circle at 35% 35%, #fbbf24 0%, #d97706 55%, #78350f 100%)', 
+      rim: '#fde68a', 
+      shadow: 'rgba(180, 83, 9, 0.5)' 
+    },
+    emerald: { 
+      bg: 'radial-gradient(circle at 35% 35%, #34d399 0%, #059669 55%, #064e3b 100%)', 
+      rim: '#a7f3d0', 
+      shadow: 'rgba(6, 78, 59, 0.5)' 
+    },
+    midnight: { 
+      bg: 'radial-gradient(circle at 35% 35%, #60a5fa 0%, #2563eb 55%, #1e3a8a 100%)', 
+      rim: '#bfdbfe', 
+      shadow: 'rgba(30, 58, 138, 0.5)' 
+    },
+    copper: { 
+      bg: 'radial-gradient(circle at 35% 35%, #fb923c 0%, #c2410c 55%, #7c2d12 100%)', 
+      rim: '#fed7aa', 
+      shadow: 'rgba(124, 45, 18, 0.5)' 
+    },
+    'rose-gold': { 
+      bg: 'radial-gradient(circle at 35% 35%, #f472b6 0%, #db2777 55%, #831843 100%)', 
+      rim: '#fbcfe8', 
+      shadow: 'rgba(131, 24, 67, 0.5)' 
+    },
+  };
+
+  const col = colorMap[color] || colorMap.crimson;
+
+  let emblem = '💌';
+  if (type === 'heart') {
+    emblem = '<svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+  } else if (type === 'rose') {
+    emblem = '<svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;" viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 0-4 4c0 3 4 5 4 8 0-3 4-5 4-8a4 4 0 0 0-4-4z" fill="currentColor" fill-opacity="0.4"/><path d="M12 15v6"/><path d="M9 18c1.5-1 3-1 3-1s1.5 0 3 1"/></svg>';
+  } else if (type === 'crown') {
+    emblem = '<svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3H5v-1h14v1z"/></svg>';
+  } else if (type === 'feather') {
+    emblem = '<svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;" viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L3 12.5V21h8.5z" fill="currentColor" fill-opacity="0.3"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>';
+  } else if (type === 'lotus') {
+    emblem = '<svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;" viewBox="0 0 24 24"><path d="M12 3c-2 4-2 7 0 11 2-4 2-7 0-11z" fill="currentColor" fill-opacity="0.4"/><path d="M12 14c-3-2-6-2-8 1 3 3 7 3 8-1z"/><path d="M12 14c3-2 6-2 8 1-3 3-7 3-8-1z"/></svg>';
+  } else if (type === 'star') {
+    emblem = '<svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2l2.4 6.9 7.6.3-5.8 4.7 2 7.1-6.2-4.2-6.2 4.2 2-7.1-5.8-4.7 7.6-.3z"/></svg>';
+  } else if (type === 'tree') {
+    emblem = '<svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2a6 6 0 0 0-6 6c0 2.2 1.2 4.1 3 5.1V19H7v2h10v-2h-2v-5.9c1.8-1 3-2.9 3-5.1a6 6 0 0 0-6-6z"/></svg>';
+  } else if (type === 'crescent') {
+    emblem = '<svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>';
+  } else if (type === 'initial') {
+    const char = (initial ? initial.trim().charAt(0) : 'চি') || 'চি';
+    emblem = `<span style="font-family:'Noto Serif Bengali',serif; font-weight:800; font-size:14px;">${escapeHtml(char)}</span>`;
+  }
+
+  return `
+    <div class="wax-seal" style="background: ${col.bg}; border-color: ${col.rim}; box-shadow: 0 4px 12px ${col.shadow}, inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 4px rgba(0,0,0,0.4);">
+      <div class="wax-seal-inner">
+        ${emblem}
+      </div>
+    </div>
+  `;
+}
+
 export function generateStaticRecipientHtml(data: LetterData): string {
   const theme = THEMES[data.theme] || THEMES.classic;
   const stampSvg = generateStampSvg(data.stampType, theme.accentRed);
   const stampMiniSvg = stampSvg.replace('class="stamp"', 'class="stamp-mini"');
+  const waxSealHtml = generateWaxSealSvg(
+    data.sealType || 'envelope-heart',
+    data.sealColor || 'crimson',
+    data.signatureName || data.senderName || 'চি'
+  );
 
   const paragraphHtml = data.paragraphs
     .map((p) => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`)
@@ -54,7 +130,23 @@ export function generateStaticRecipientHtml(data: LetterData): string {
   const senderHtml = escapeHtml(data.senderName) + (data.senderAddress ? `<br><span class="addr-sub">${escapeHtml(data.senderAddress).replace(/\n/g, '<br>')}</span>` : '');
   const receiverHtml = escapeHtml(data.receiverName) + (data.receiverAddress ? `<br><span class="addr-sub">${escapeHtml(data.receiverAddress).replace(/\n/g, '<br>')}</span>` : '');
 
-  const fontClass = data.fontFamily === 'serif' ? 'font-serif-bengali' : data.fontFamily === 'galada' ? 'font-galada' : data.fontFamily === 'tiro' ? 'font-tiro' : 'font-hind';
+  const fontInfoMap: Record<string, string> = {
+    'hind': 'font-hind',
+    'tiro': 'font-tiro',
+    'serif': 'font-serif-bengali',
+    'noto-serif': 'font-serif-bengali',
+    'galada': 'font-galada',
+    'anek': 'font-anek',
+    'baloo': 'font-baloo',
+    'atma': 'font-atma',
+    'mina': 'font-mina',
+    'noto-sans': 'font-noto-sans',
+    'kalpurush': 'font-kalpurush',
+    'siyam': 'font-siyam',
+    'vintage-book': 'font-vintage-book',
+  };
+
+  const fontClass = fontInfoMap[data.fontFamily] || 'font-hind';
 
   return `<!DOCTYPE html>
 <html lang="bn">
@@ -65,7 +157,7 @@ export function generateStaticRecipientHtml(data: LetterData): string {
 <meta name="description" content="${escapeHtml(data.subtitle)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700;800&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;500;600;700;800&family=Atma:wght@400;500;600;700&family=Baloo+Da+2:wght@400;500;600;700;800&family=Galada&family=Hind+Siliguri:wght@300;400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700;800&family=Noto+Serif+Bengali:wght@400;600;700;800&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: ${theme.cream};
@@ -92,10 +184,18 @@ export function generateStaticRecipientHtml(data: LetterData): string {
     overflow-x: hidden;
   }
 
-  .font-serif-bengali { font-family: "Noto Serif Bengali", serif; }
-  .font-hind { font-family: "Hind Siliguri", sans-serif; }
-  .font-galada { font-family: "Galada", cursive, sans-serif; }
-  .font-tiro { font-family: "Tiro Bangla", serif; }
+  .font-hind { font-family: "Hind Siliguri", "Noto Sans Bengali", sans-serif; }
+  .font-tiro { font-family: "Tiro Bangla", "Noto Serif Bengali", serif; }
+  .font-serif-bengali, .font-noto-serif { font-family: "Noto Serif Bengali", "SolaimanLipi", "Kalpurush", serif; }
+  .font-galada { font-family: "Galada", "Noto Serif Bengali", cursive, serif; }
+  .font-anek { font-family: "Anek Bangla", "Hind Siliguri", sans-serif; }
+  .font-baloo { font-family: "Baloo Da 2", "Hind Siliguri", cursive, sans-serif; }
+  .font-atma { font-family: "Atma", "Galada", cursive, sans-serif; }
+  .font-mina { font-family: "Mina", "Hind Siliguri", sans-serif; }
+  .font-noto-sans { font-family: "Noto Sans Bengali", sans-serif; }
+  .font-kalpurush { font-family: "SolaimanLipi", "Kalpurush", "Siyam Rupali", "Noto Serif Bengali", serif; }
+  .font-siyam { font-family: "Siyam Rupali", "AdorshoLipi", "Hind Siliguri", sans-serif; }
+  .font-vintage-book { font-family: "Tiro Bangla", "Noto Serif Bengali", "SolaimanLipi", Georgia, serif; }
 
   body {
     background-image:
@@ -123,8 +223,8 @@ export function generateStaticRecipientHtml(data: LetterData): string {
 
   .envelope-wrap {
     width: 100%;
-    max-width: 480px;
-    perspective: 1600px;
+    max-width: 500px;
+    perspective: 1400px;
     margin-bottom: 20px;
   }
 
@@ -132,22 +232,47 @@ export function generateStaticRecipientHtml(data: LetterData): string {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 10;
-    background: var(--paper);
-    border-radius: 8px;
+    background: linear-gradient(175deg, #dfd3ba 0%, #cfc1a5 100%);
+    border-radius: 12px;
     box-shadow: var(--envelope-shadow);
-    overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
     user-select: none;
+    transform-style: preserve-3d;
   }
 
   .envelope:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 28px 65px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 32px 70px rgba(0, 0, 0, 0.28);
   }
 
   .envelope:active {
     transform: translateY(-1px) scale(0.99);
+  }
+
+  .sliding-letter {
+    position: absolute;
+    top: 8px;
+    left: 14px;
+    right: 14px;
+    height: 90%;
+    background: var(--paper);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
+    transform-origin: bottom center;
+    transition: transform 0.65s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.4s ease, box-shadow 0.65s ease;
+  }
+
+  .envelope.open .sliding-letter {
+    transform: translateY(-68%) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.22);
+    z-index: 5;
   }
 
   .stripe-border {
@@ -162,22 +287,76 @@ export function generateStaticRecipientHtml(data: LetterData): string {
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     pointer-events: none;
+    z-index: 3;
+    border-radius: 12px;
   }
 
-  .flap {
+  .front-pocket {
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    clip-path: polygon(0 30%, 50% 68%, 100% 30%, 100% 100%, 0 100%);
+    z-index: 2;
+    border-radius: 12px;
+  }
+
+  .flap-wrap {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 54%;
-    background: linear-gradient(160deg, #EFE7D2, var(--paper));
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
     transform-origin: top center;
-    transition: transform 0.8s cubic-bezier(0.6, -0.1, 0.2, 1.15);
-    border-bottom: 1px solid var(--line);
-    z-index: 5;
+    transition: transform 0.7s cubic-bezier(0.6, -0.1, 0.2, 1.15);
+    z-index: 4;
+    transform-style: preserve-3d;
   }
 
-  .envelope.open .flap {
+  .envelope.open .flap-wrap {
     transform: rotateX(180deg);
+    z-index: 0;
+  }
+
+  .flap {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(165deg, #F5EEDB, var(--paper));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .wax-seal {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border-width: 2px;
+    border-style: solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    user-select: none;
+  }
+
+  .wax-seal-inner {
+    width: 78%;
+    height: 78%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    font-size: 16px;
+  }
+
+  .envelope.open .wax-seal {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.7);
   }
 
   .stamp {
@@ -485,11 +664,30 @@ export function generateStaticRecipientHtml(data: LetterData): string {
   <div id="stage">
     <div class="envelope-wrap">
       <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="চিঠি খুলতে ট্যাপ বা ক্লিক করুন">
+        
+        <!-- Sliding Folded Letter inside pocket -->
+        <div class="sliding-letter">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,0,0,0.08); padding-bottom:6px; font-size:11px; opacity:0.8;">
+            <span>${escapeHtml(data.letterDate || 'একান্তে চিঠি')}</span>
+            <span style="color:var(--red); font-weight:bold;">গোপনীয়</span>
+          </div>
+          <div style="text-align:center; padding: 4px 0;">
+            <div style="font-weight:bold; font-size:14px; color:var(--ink);">${escapeHtml(data.titleWord1)} ${escapeHtml(data.titleWord2)} <span style="color:var(--gold);">${escapeHtml(data.titleWord3)}</span></div>
+            <div style="font-size:12px; font-weight:600; color:var(--ink); margin-top:2px;">${escapeHtml(data.salutation)}</div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(0,0,0,0.08); padding-top:6px; font-size:11px; color:var(--ink); opacity:0.85;">
+            <span>ইতি, <strong style="color:var(--red);">${escapeHtml(data.signatureName)}</strong></span>
+            <span style="color:var(--gold); font-weight:bold;">চিঠি খুলছে...</span>
+          </div>
+        </div>
+
+        <!-- Front Pocket Paper -->
+        <div class="front-pocket"></div>
         <div class="stripe-border"></div>
 
         ${stampSvg}
 
-        <div class="envelope-body">
+        <div class="envelope-body" style="z-index: 3;">
           <div class="addr-grid">
             <div>
               <div class="label">প্রেরক</div>
@@ -503,7 +701,13 @@ export function generateStaticRecipientHtml(data: LetterData): string {
           </div>
         </div>
 
-        <div class="flap"></div>
+        <!-- Top Triangular Flap with Wax Seal -->
+        <div class="flap-wrap">
+          <div class="flap">
+            ${waxSealHtml}
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -631,7 +835,7 @@ export function generateStaticRecipientHtml(data: LetterData): string {
       stage.classList.add('hidden');
       letterPage.classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 650);
+    }, 800);
   }
 
   function closeLetter(){

@@ -1,17 +1,41 @@
 @import "tailwindcss";
 
 @layer utilities {
-  .font-serif-bengali {
-    font-family: "Noto Serif Bengali", "Hind Siliguri", serif;
-  }
   .font-hind {
     font-family: "Hind Siliguri", "Noto Sans Bengali", sans-serif;
+  }
+  .font-tiro {
+    font-family: "Tiro Bangla", "Noto Serif Bengali", serif;
+  }
+  .font-serif-bengali, .font-noto-serif {
+    font-family: "Noto Serif Bengali", "SolaimanLipi", "Kalpurush", serif;
   }
   .font-galada {
     font-family: "Galada", "Noto Serif Bengali", cursive, serif;
   }
-  .font-tiro {
-    font-family: "Tiro Bangla", "Noto Serif Bengali", serif;
+  .font-anek {
+    font-family: "Anek Bangla", "Hind Siliguri", sans-serif;
+  }
+  .font-baloo {
+    font-family: "Baloo Da 2", "Hind Siliguri", cursive, sans-serif;
+  }
+  .font-atma {
+    font-family: "Atma", "Galada", cursive, sans-serif;
+  }
+  .font-mina {
+    font-family: "Mina", "Hind Siliguri", sans-serif;
+  }
+  .font-noto-sans {
+    font-family: "Noto Sans Bengali", sans-serif;
+  }
+  .font-kalpurush {
+    font-family: "SolaimanLipi", "Kalpurush", "Siyam Rupali", "Noto Serif Bengali", serif;
+  }
+  .font-siyam {
+    font-family: "Siyam Rupali", "AdorshoLipi", "Hind Siliguri", sans-serif;
+  }
+  .font-vintage-book {
+    font-family: "Tiro Bangla", "Noto Serif Bengali", "SolaimanLipi", Georgia, serif;
   }
 }
 
