@@ -13,13 +13,17 @@ import {
   Download, 
   Share2,
   Copy,
-  BookOpen
+  BookOpen,
+  Mail,
+  ShieldCheck,
+  Eraser
 } from 'lucide-react';
 
 interface Props {
   data: LetterData;
   onChange: (newData: LetterData) => void;
   onReset: () => void;
+  onClearAllText?: () => void;
   onEnterFriendPreview: () => void;
   onOpenExportModal: () => void;
 }
@@ -28,6 +32,7 @@ export const EditorPanel: React.FC<Props> = ({
   data,
   onChange,
   onReset,
+  onClearAllText,
   onEnterFriendPreview,
   onOpenExportModal,
 }) => {
@@ -100,10 +105,10 @@ export const EditorPanel: React.FC<Props> = ({
           <button
             id="open-export-modal-top-btn"
             onClick={onOpenExportModal}
-            className="bg-amber-600 hover:bg-amber-500 text-neutral-950 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg cursor-pointer"
+            className="bg-amber-600 hover:bg-amber-500 text-neutral-950 font-bold px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg cursor-pointer"
           >
-            <Share2 className="w-4 h-4" />
-            <span>২য় অংশ রপ্তানি</span>
+            <Mail className="w-4 h-4" />
+            <span>পাঠান / রপ্তানি</span>
           </button>
         </div>
       </div>
@@ -557,14 +562,33 @@ export const EditorPanel: React.FC<Props> = ({
 
       {/* Bottom Footer Action Bar */}
       <div className="p-4 bg-neutral-50 border-t border-neutral-200 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <button
-          id="reset-original-btn"
-          onClick={onReset}
-          className="text-neutral-500 hover:text-red-600 flex items-center gap-1 font-medium transition-colors cursor-pointer"
-        >
-          <RotateCcw className="w-3.5 h-3.5" />
-          <span>মূল লেখায় রিসেট করুন</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            id="reset-original-btn"
+            onClick={onReset}
+            className="text-neutral-500 hover:text-amber-800 flex items-center gap-1 font-medium transition-colors cursor-pointer"
+            title="নমুনা চিঠি দিয়ে পূর্ণ করুন"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>নমুনা চিঠি</span>
+          </button>
+
+          {onClearAllText && (
+            <button
+              id="clear-all-text-btn"
+              onClick={() => {
+                if (window.confirm('আপনি কি নিশ্চিত যে ওয়েবসাইট থেকে আপনার এই ব্যক্তিগত চিঠি সম্পূর্ণ মুছে ফেলতে চান? এতে ব্রাউজার মেমোরি থেকে আপনার লেখা মুছে যাবে।')) {
+                  onClearAllText();
+                }
+              }}
+              className="text-neutral-500 hover:text-red-600 flex items-center gap-1 font-medium transition-colors cursor-pointer"
+              title="ওয়েবসাইট থেকে সব লেখা মুছে ফেলুন"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-red-500" />
+              <span>চিঠির লেখা মুছুন (গোপনীয়তা)</span>
+            </button>
+          )}
+        </div>
 
         <div className="flex items-center gap-2">
           <button
@@ -581,8 +605,8 @@ export const EditorPanel: React.FC<Props> = ({
             onClick={onOpenExportModal}
             className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>স্ট্যাটিক ২য় অংশ ডাউনলোড / শেয়ার</span>
+            <Mail className="w-3.5 h-3.5" />
+            <span>ইমেইল / ডাউনলোড / শেয়ার</span>
           </button>
         </div>
       </div>

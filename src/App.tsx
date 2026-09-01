@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LetterData, ViewMode } from './types';
-import { DEFAULT_LETTER } from './utils/templates';
+import { DEFAULT_LETTER, BLANK_LETTER } from './utils/templates';
 import { decodeLetterData } from './utils/urlSharing';
 import { EditorPanel } from './components/EditorPanel';
 import { LivePreview } from './components/LivePreview';
@@ -12,9 +12,11 @@ import {
   Share2, 
   Download, 
   Columns, 
-  Smartphone, 
   Sparkles,
-  Info
+  Mail,
+  Trash2,
+  ShieldCheck,
+  CheckCircle2
 } from 'lucide-react';
 
 const STORAGE_KEY = 'chithi_creator_draft_v2';
@@ -55,6 +57,7 @@ export default function App() {
 
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [mobileActiveTab, setMobileActiveTab] = useState<'editor' | 'preview'>('editor');
+  const [privacyToastMessage, setPrivacyToastMessage] = useState<string | null>(null);
 
   // Autosave to localStorage
   useEffect(() => {
@@ -66,9 +69,26 @@ export default function App() {
   }, [data]);
 
   const handleReset = () => {
-    if (window.confirm('আপনি কি পূর্বের মূল লেখায় ফিরে যেতে চান? আপনার বর্তমান পরিবর্তনগুলো মুছে যাবে।')) {
+    if (window.confirm('আপনি কি পূর্বের মূল নমুনা লেখায় ফিরে যেতে চান? আপনার বর্তমান পরিবর্তনগুলো মুছে যাবে।')) {
       setData(DEFAULT_LETTER);
     }
+  };
+
+  /**
+   * Completely clears user text from memory and storage to preserve privacy
+   */
+  const handleClearAllText = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+    if (typeof window !== 'undefined' && window.location.search) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    setData(BLANK_LETTER);
+    setPrivacyToastMessage('আপনার ব্যক্তিগত চিঠি ওয়েবসাইট ও ব্রাউজার মেমোরি থেকে সম্পূর্ণ মুছে ফেলা হয়েছে!');
+    setTimeout(() => setPrivacyToastMessage(null), 4500);
   };
 
   // If the page is in direct Recipient View (or user clicked Preview as Friend)
@@ -103,7 +123,7 @@ export default function App() {
                 </span>
               </div>
               <p className="text-[11px] text-neutral-400 hidden sm:block">
-                ১ম পর্ব (ওয়েব এডিটর) দিয়ে চিঠি তৈরি করুন এবং বন্ধুদের জন্য ২য় পর্ব (স্ট্যাটিক চিঠি) পাঠান
+                ১ম পর্ব (ওয়েব এডিটর) দিয়ে চিঠি তৈরি করুন এবং বন্ধুদের জন্য ২য় পর্ব (ইমেইল/স্ট্যাটিক চিঠি) পাঠান
               </p>
             </div>
           </div>
@@ -150,6 +170,21 @@ export default function App() {
               </button>
             </div>
 
+            {/* Privacy Wipe button in header */}
+            <button
+              id="top-privacy-wipe-btn"
+              onClick={() => {
+                if (window.confirm('আপনি কি নিশ্চিত যে ওয়েবসাইট থেকে আপনার এই চিঠির সমস্ত ব্যক্তিগত লেখা মুছে ফেলতে চান?')) {
+                  handleClearAllText();
+                }
+              }}
+              className="hidden lg:flex items-center gap-1 px-3 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-red-400 border border-neutral-800 text-xs transition-colors cursor-pointer"
+              title="ওয়েবসাইট থেকে আপনার ব্যক্তিগত লেখা মুছে ফেলুন"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-neutral-400 hover:text-red-400" />
+              <span>লেখা মুছুন</span>
+            </button>
+
             {/* Friend Preview Button on Mobile */}
             <button
               id="mobile-friend-preview-btn"
@@ -160,18 +195,32 @@ export default function App() {
               <Eye className="w-4 h-4" />
             </button>
 
-            {/* Export Modal Trigger */}
+            {/* Export & Email Modal Trigger */}
             <button
               id="export-top-bar-btn"
               onClick={() => setIsExportModalOpen(true)}
               className="bg-amber-600 hover:bg-amber-500 text-neutral-950 font-bold px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-md hover:shadow-lg cursor-pointer shrink-0"
             >
-              <Share2 className="w-4 h-4" />
-              <span>২য় অংশ রপ্তানি / ডাউনলোড</span>
+              <Mail className="w-4 h-4" />
+              <span>ইমেইল / ২য় অংশ পাঠান</span>
             </button>
           </div>
         </div>
       </header>
+
+      {/* Privacy Cleared Toast Notification */}
+      {privacyToastMessage && (
+        <div className="bg-emerald-600 text-white px-4 py-2.5 shadow-md flex items-center justify-center gap-2 text-xs sm:text-sm font-medium animate-in slide-in-from-top duration-300">
+          <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <span>{privacyToastMessage}</span>
+          <button 
+            onClick={() => setPrivacyToastMessage(null)}
+            className="ml-2 text-emerald-200 hover:text-white underline cursor-pointer"
+          >
+            ঠিক আছে
+          </button>
+        </div>
+      )}
 
       {/* Mobile Switcher (Editor vs Preview) */}
       <div className="md:hidden bg-white border-b border-neutral-200 px-4 py-2 flex items-center justify-center gap-2">
@@ -201,23 +250,25 @@ export default function App() {
       <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-5 lg:p-6">
         
         {/* Helper Banner explaining the 2-part structure */}
-        <div className="mb-4 p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-950 text-xs sm:text-sm flex items-center justify-between gap-3 shadow-xs">
+        <div className="mb-4 p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-950 text-xs sm:text-sm flex flex-wrap items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-2.5">
             <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
             <div>
-              <span className="font-bold">২ পর্ব সমাধান:</span>{' '}
+              <span className="font-bold">ইমেইল ও ২ পর্ব সমাধান:</span>{' '}
               <span className="text-amber-900">
-                ১ম পর্ব (বামপাশে) আপনার ব্যবহারের জন্য সম্পাদনযোগ্য। কাজ শেষ হলে <strong>২য় অংশ রপ্তানি</strong> বাটনে চাপ দিয়ে বন্ধুদের জন্য খাঁটি স্ট্যাটিক চিঠিটি (.html) ডাউনলোড বা শেয়ার করুন।
+                চিঠি লেখা শেষে <strong>ইমেইল / ২য় অংশ পাঠান</strong> বাটনে চাপ দিয়ে সরাসরি প্রাপকের ইমেইল বা অ্যানিমেটেড চিঠি পাঠাতে পারেন। পাঠানো শেষ হলে ওয়েবসাইট থেকে লেখা মুছে সুরক্ষিত থাকুন।
               </span>
             </div>
           </div>
-          <button
-            onClick={() => setIsExportModalOpen(true)}
-            className="hidden sm:inline-flex items-center gap-1 font-bold text-amber-800 hover:text-amber-950 hover:underline shrink-0 text-xs cursor-pointer"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>এখনই পাঠান</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsExportModalOpen(true)}
+              className="inline-flex items-center gap-1 font-bold text-amber-800 hover:text-amber-950 hover:underline shrink-0 text-xs cursor-pointer"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>ইমেইলে পাঠান</span>
+            </button>
+          </div>
         </div>
 
         {/* Dynamic Grid Layout */}
@@ -231,6 +282,7 @@ export default function App() {
                   data={data}
                   onChange={setData}
                   onReset={handleReset}
+                  onClearAllText={handleClearAllText}
                   onEnterFriendPreview={() => setViewMode('friend-view')}
                   onOpenExportModal={() => setIsExportModalOpen(true)}
                 />
@@ -253,6 +305,7 @@ export default function App() {
                 data={data}
                 onChange={setData}
                 onReset={handleReset}
+                onClearAllText={handleClearAllText}
                 onEnterFriendPreview={() => setViewMode('friend-view')}
                 onOpenExportModal={() => setIsExportModalOpen(true)}
               />
@@ -261,11 +314,12 @@ export default function App() {
         </div>
       </main>
 
-      {/* Export & Sharing Modal */}
+      {/* Export, Email & Sharing Modal */}
       <ExportModal
         data={data}
         isOpen={isExportModalOpen}
         onClose={() => setIsExportModalOpen(false)}
+        onClearLetter={handleClearAllText}
       />
     </div>
   );

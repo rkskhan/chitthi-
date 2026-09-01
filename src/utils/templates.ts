@@ -1,5 +1,26 @@
 import { LetterData, ThemeConfig } from '../types';
 
+export const BLANK_LETTER: LetterData = {
+  titleWord1: 'আমার',
+  titleWord2: 'হৃদয়ের',
+  titleWord3: 'চিঠি',
+  subtitle: 'একান্তে লেখা একটি চিঠি',
+  salutation: 'প্রিয়,',
+  paragraphs: [''],
+  signOff: 'ইতি,',
+  signatureName: '',
+  letterDate: '০১ সেপ্টেম্বর, ২০২৬',
+  senderName: '',
+  senderAddress: '',
+  receiverName: '',
+  receiverAddress: '',
+  theme: 'classic',
+  stampType: 'star',
+  paperStyle: 'parchment',
+  fontFamily: 'hind',
+  enableAudio: true,
+};
+
 export const DEFAULT_LETTER: LetterData = {
   titleWord1: 'চিঠি',
   titleWord2: 'দিবসের',
